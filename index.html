@@ -1,5 +1,3 @@
-<html>
-  <body>
 <p><strong>Movie Recommendation System</strong></p>
 <p>&nbsp;</p>
 <p><strong>Team</strong><span style="font-weight: 400;">&nbsp;</span></p>
@@ -12,18 +10,20 @@
 <p>&nbsp;</p>
 <p><span style="font-weight: 400;">For this project we plan to use the movie dataset (more information in the next section), preprocess the dataset to remove any abnormality or outliers. For the movie searched by the user we will make a hit to reviews page on IMDB for that particular movie to fetch the reviews of that particular movie from the above mentioned movie review websites. After redirecting to the review pages of that particular movie, perform web scraping to get the review content and stored it in a file against the movie id.&nbsp;</span></p>
 <p>&nbsp;</p>
-<p><span style="font-weight: 400;">Next, we will analyse the Sentiment for the review by using the words in the review text. We will rate the word as per its meaning from +5 (positive review) to -5 (negative review) using the dictionary AFINN. The AFINN is a dictionary which consists of 2500 words which are rated from +5 to -5 depending on their meaning. We will be using the dictionary from the following link: </span><a href="https://drive.google.com/file/d/0ByJLBTmJojjzZ0d1RVdBTDVjT28/view"><span style="font-weight: 400;">AFINN.txt</span></a><span style="font-weight: 400;">. Once the sentiment analysis is performed, we will average the rating of words per review to determine if the review is negative or positive and assign appropriate &ldquo;stars&rdquo; from the range 0 to 5. For negative average rating we will assign 1 star.</span></p>
+<p><span style="font-weight: 400;">Next, we will analyse the Sentiment for the review by using the words in the review text. We will rate the word as per its meaning from +5 (positive review) to -5 (negative review) using the dictionary AFINN. The AFINN is a dictionary which consists of 2500 words which are rated from +5 to -5 depending on their meaning. We will be using the dictionary from the following link: </span><a href="https://raw.githubusercontent.com/fnielsen/afinn/master/afinn/data/AFINN-111.txt"><span style="font-weight: 400;">AFINN-111.txt</span><span style="font-weight: 400;">.</span></a><span style="font-weight: 400;"> Once the sentiment analysis is performed, we will average the rating of words per review to determine if the review is negative or positive and assign appropriate &ldquo;stars&rdquo; from the range 0 to 5. For negative average rating we will assign 1 star.</span></p>
 <p>&nbsp;</p>
-<p><span style="font-weight: 400;">Next we implement Collaborative filtering to display the list the top rated movies for particular user whose movie likings are similar to other users.&nbsp;</span></p>
+<p><span style="font-weight: 400;">Next we implement Collaborative filtering to display the list the top rated movies for particular user whose movie likings are similar to other users. We used cosine similarity matrix to determine the similar users based on the ratings given by the users to the movies.</span></p>
 <p><span style="font-weight: 400;"><br /></span><span style="font-weight: 400;">Recommendation techniques &ndash; Content, Collaborative and Hybrid models </span> <span style="font-weight: 400;"><br /></span><span style="font-weight: 400;">Java Web services APIs to pull information from external sources </span></p>
 <p><span style="font-weight: 400;">Spark - Python .</span></p>
 <p><span style="font-weight: 400;">Sentiment Analysis using Java</span></p>
 <p><br /><br /></p>
 <p><strong>Dataset Details </strong></p>
-<p><span style="font-weight: 400;">The dataset comprises of three parts:</span></p>
+<p><span style="font-weight: 400;">We will be using the datasets available on the website </span><a href="https://grouplens.org/datasets/movielens/"><span style="font-weight: 400;">https://grouplens.org/datasets/movielens/</span></a></p>
+<p><span style="font-weight: 400;">the data is collected from the MovieLens website </span><span style="font-weight: 400;">(</span><a href="http://movielens.org/"><span style="font-weight: 400;">http://movielens.org</span></a><span style="font-weight: 400;">). The dataset comprises of three parts:</span></p>
 <ol>
 <li><span style="font-weight: 400;"> Movie lens data &ndash; contains users.csv, ratings.csv, movies.csv, tags.csv&nbsp;</span></li>
 </ol>
+<p>&nbsp;</p>
 <p><strong>ratings.csv</strong><span style="font-weight: 400;">: Each line of this file after the header row represents one rating of one movie by one user, and has the following format:&nbsp;</span></p>
 <p><span style="font-weight: 400;">userId,movieId,rating,timestamp</span></p>
 <p><span style="font-weight: 400;">In our prototype recommendation engine we are ignoring timestamp from ratings.csv</span></p>
@@ -62,17 +62,26 @@
 <p><strong>Frameworks used</strong></p>
 <p><strong>Hadoop</strong><span style="font-weight: 400;"> - </span><span style="font-weight: 400;">Apache Hadoop is a collection of open-source software utilities that facilitate using a network of many computers to solve problems involving massive amounts of data and computation. It provides a software framework for distributed storage and processing of big data using the MapReduce programming model</span></p>
 <p><strong>Spark</strong><span style="font-weight: 400;"> - </span><span style="font-weight: 400;">Apache Spark is an open-source distributed general-purpose cluster-computing framework. Spark provides an interface for programming entire clusters with implicit data parallelism and fault tolerance.</span></p>
-<p><strong>External Packages Used</strong></p>
-<p><span style="font-weight: 400;">Jsoup is a java html parser. It is a java library that is used to parse HTML document. Jsoup provides api to extract and manipulate data from URL or HTML file. It uses DOM, CSS and Jquery-like methods for extracting and manipulating file.</span><span style="font-weight: 400;">&nbsp;</span></p>
-<p><br /><br /><br /></p>
+<p><strong>External Libraries Used</strong></p>
+<p><strong>Jsoup-1.12.1.jar</strong><strong> - </strong><span style="font-weight: 400;">Jsoup is a java html parser. It is a java library that is used to parse HTML document. Jsoup provides api to extract and manipulate data from URL or HTML file. It uses DOM, CSS and Jquery-like methods for extracting and manipulating file.</span><span style="font-weight: 400;"> We used this jar for web scraping to get the reviews from IMDB website.</span></p>
+<p><br /><br /></p>
+<p><strong>Scipy.sparse.linalg.svds</strong><strong> - </strong><span style="font-weight: 400;">This library consists of an iterative procedure to find the SVD decomposition by reducing the problem to an eigendecomposition on the array. This method is very effective when the input matrix is sparse or only the largest singular values are required.</span></p>
+<p>&nbsp;</p>
 <p><strong>Project Context</strong></p>
 <p>&nbsp;</p>
 <p><span style="font-weight: 400;">The purpose of choosing this project is to get an insight about recommendation engine in general. Through this course of implementation we intend to get hands on experience with web crawling, link analysis and also working as a team. We find this system really interesting since it helps users make their decision and also enforce more research on products they plan to buy and also feel satisfied after a decision is made. It also helps record the quality of interactions between users and items. </span><span style="font-weight: 400;">Recommender systems differ in the way they analyze the data sources to develop notions of affinity between users and items, which can be used to identify well-matched pairs.&nbsp;</span></p>
 <p>&nbsp;</p>
-<p><strong>Illustrative Results</strong></p>
-<p>&nbsp;</p>
 <p><strong>Performance Evaluation</strong></p>
+<p>&nbsp;</p>
+<p><strong>Sentiment analysis for reviews:</strong></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">We were able to achieve fairly good execution time from scraping the reviews and performing&nbsp; sentiment analysis in mapreduce of around 5-6mins.</span><strong>&nbsp;</strong></p>
+<p><span style="font-weight: 400;">We are using AFINN-111.txt dictionary which has the list of words along with the score from -1 to 5 indicating the negativity or positivity of the word. Since, this dictionary has limited words (around 2477 words), accurately rating the review is not possible. We were not able to capture the accurate score for the reviews. Also, as we are assigning the scores based on the words used in the reviews without applying algorithm like natural language processing, genetic algorithms etc. the resultant scores slightly differs.&nbsp;</span></p>
 <p><br /><br /></p>
+<p><strong>User Similarity Matrix:</strong></p>
+<p><span style="font-weight: 400;">While creating the user similarity matrix for all the users, the system&rsquo;s performance was degrading and was taking a long time to execute. Most of the jobs where out of resources and result in failing of tasks due to long wait period for resources. So we have restricted the user similarity matrix for first 100 users.&nbsp; We have noticed that the system&rsquo;s performance was good for 100 users and we were getting results in less than 10 mins.</span></p>
+<p><span style="font-weight: 400;">As the user and movie rating matrix is sparse, we have implemented factorization method to handle missing ratings. For this project we have used the K value as &ldquo;50&rdquo; in Singular value decomposition (SVD) factorization which has improved the performance.</span></p>
+<p><br /><br /><br /></p>
 <p><strong>Work Division</strong></p>
 <p>&nbsp;</p>
 <table>
@@ -212,8 +221,7 @@
 <li style="font-weight: 400;"><span style="font-weight: 400;">As the user-movie rating matrix is sparse we will use sentiment analysis to fill up the missing ratings in order to reduce the rmse of user-similarity matrix.&nbsp;</span></li>
 <li style="font-weight: 400;"><span style="font-weight: 400;">Give better meaningful suggestions to the users based on the genre of the movie, time period of the movie searched, cast, director etc.</span></li>
 <li style="font-weight: 400;"><span style="font-weight: 400;">Movie ratings can be calculated using Sentiment Analysis instead of depending on the values from the predefined dataset.</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Include natural language processing for Sentiment Analysis to achieve accurate ratings by better understanding the user reviews.&nbsp;</span></li>
 </ol>
 <p><strong>Conclusion</strong></p>
 <p><span style="font-weight: 400;">With enough data, collaborative filtering provides a powerful way for data scientists to recommend new products or items to users. If you have well-detailed metadata about your products, you could also use a content-based approach to recommendations.</span></p>
-  </body>
-</html>
