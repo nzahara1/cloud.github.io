@@ -1,1 +1,215 @@
-Hello Everyone.
+<p><strong>Movie Recommendation System</strong></p>
+<p>&nbsp;</p>
+<p><strong>Team</strong><span style="font-weight: 400;">&nbsp;</span></p>
+<p><span style="font-weight: 400;">Noor Zahara</span></p>
+<p><span style="font-weight: 400;">Riddhi Patil</span></p>
+<p><span style="font-weight: 400;">Sharmistha Haldar</span></p>
+<p>&nbsp;</p>
+<p><strong>Introduction</strong></p>
+<p><span style="font-weight: 400;">With this project we aim to provide the movie recommendation for the user based on the movies liked by similar users. Also, we provide the movie rating for the searched movie based on the reviews provided by users on popular movie review websites such as IMDB and Tumblr.</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">For this project we plan to use the movie dataset (more information in the next section), preprocess the dataset to remove any abnormality or outliers. For the movie searched by the user we will make a hit to reviews page on IMDB for that particular movie to fetch the reviews of that particular movie from the above mentioned movie review websites. After redirecting to the review pages of that particular movie, perform web scraping to get the review content and stored it in a file against the movie id.&nbsp;</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">Next, we will analyse the Sentiment for the review by using the words in the review text. We will rate the word as per its meaning from +5 (positive review) to -5 (negative review) using the dictionary AFINN. The AFINN is a dictionary which consists of 2500 words which are rated from +5 to -5 depending on their meaning. We will be using the dictionary from the following link: </span><a href="https://drive.google.com/file/d/0ByJLBTmJojjzZ0d1RVdBTDVjT28/view"><span style="font-weight: 400;">AFINN.txt</span></a><span style="font-weight: 400;">. Once the sentiment analysis is performed, we will average the rating of words per review to determine if the review is negative or positive and assign appropriate &ldquo;stars&rdquo; from the range 0 to 5. For negative average rating we will assign 1 star.</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">Next we implement Collaborative filtering to display the list the top rated movies for particular user whose movie likings are similar to other users.&nbsp;</span></p>
+<p><span style="font-weight: 400;"><br /></span><span style="font-weight: 400;">Recommendation techniques &ndash; Content, Collaborative and Hybrid models </span> <span style="font-weight: 400;"><br /></span><span style="font-weight: 400;">Java Web services APIs to pull information from external sources </span></p>
+<p><span style="font-weight: 400;">Spark - Python .</span></p>
+<p><span style="font-weight: 400;">Sentiment Analysis using Java</span></p>
+<p><br /><br /></p>
+<p><strong>Dataset Details </strong></p>
+<p><span style="font-weight: 400;">The dataset comprises of three parts:</span></p>
+<ol>
+<li><span style="font-weight: 400;"> Movie lens data &ndash; contains users.csv, ratings.csv, movies.csv, tags.csv&nbsp;</span></li>
+</ol>
+<p><strong>ratings.csv</strong><span style="font-weight: 400;">: Each line of this file after the header row represents one rating of one movie by one user, and has the following format:&nbsp;</span></p>
+<p><span style="font-weight: 400;">userId,movieId,rating,timestamp</span></p>
+<p><span style="font-weight: 400;">In our prototype recommendation engine we are ignoring timestamp from ratings.csv</span></p>
+<p>&nbsp;</p>
+<p><strong>movies.csv</strong><span style="font-weight: 400;">: Structure of movies.csv is as follows:&nbsp;</span></p>
+<p><span style="font-weight: 400;">tmdbMovieID, Movie Name and Year, Generes in | separated format. Each movie can contain one or more genres of the following genres:&nbsp;</span></p>
+<ol>
+<li><span style="font-weight: 400;"> Action</span></li>
+<li><span style="font-weight: 400;"> Adventure</span></li>
+<li><span style="font-weight: 400;"> Animation</span></li>
+<li><span style="font-weight: 400;"> Children</span></li>
+<li><span style="font-weight: 400;"> Comedy</span></li>
+<li><span style="font-weight: 400;"> Crime</span></li>
+<li><span style="font-weight: 400;"> Documentary</span></li>
+<li><span style="font-weight: 400;"> Drama</span></li>
+<li><span style="font-weight: 400;"> Fantasy</span></li>
+<li><span style="font-weight: 400;"> Film-Noir</span></li>
+<li><span style="font-weight: 400;"> Horror</span></li>
+<li><span style="font-weight: 400;"> Musical</span></li>
+<li><span style="font-weight: 400;"> Mystery</span></li>
+<li><span style="font-weight: 400;"> Romance</span></li>
+<li><span style="font-weight: 400;"> Sci-Fi</span></li>
+<li><span style="font-weight: 400;"> Thriller</span></li>
+<li><span style="font-weight: 400;"> War</span></li>
+<li><span style="font-weight: 400;"> Western</span></li>
+<li><span style="font-weight: 400;"> IMAX</span></li>
+</ol>
+<p><span style="font-weight: 400;">If no genres are available then genre will be 20. (no genres listed)&nbsp;</span></p>
+<p><span style="font-weight: 400;">Currently the system doesn&rsquo;t use the Year information.</span></p>
+<p><br /><br /></p>
+<p><strong>links.csv:</strong><span style="font-weight: 400;"> Contains the identifiers that can be used to link to other sources of movie data are&nbsp; contained in the file `links.csv`. Each line of this file after the header row represents one movie, and has the following format:&nbsp;</span></p>
+<p><span style="font-weight: 400;">movieId,imdbId,tmdbId&nbsp;</span></p>
+<p><span style="font-weight: 400;">Currently the system doesn&rsquo;t use tags.csv file.&nbsp;</span></p>
+<p><strong>Algorithms and&nbsp; Techniques Used</strong></p>
+<p><strong>Collaborative Filtering based Recommendation</strong><span style="font-weight: 400;"> - </span><span style="font-weight: 400;">&nbsp;For each user, recommender systems recommend items based on how similar users liked the item. Let&rsquo;s say Alice and Bob have similar interests in video games. Alice recently played and enjoyed the game </span><a href="http://www.zelda.com/breath-of-the-wild/"><span style="font-weight: 400;">Legend of Zelda: Breath of the Wild</span></a><span style="font-weight: 400;">. Bob has not played this game, but because the system has learned that Alice and Bob have similar tastes, it recommends this game to Bob. In addition to user similarity, recommender systems can also perform collaborative filtering using item similarity (&ldquo;Users who liked this item also liked X&rdquo;). The idea behind collaborative filtering is to recommend new items based on the similarity of users. Cosine similarity is used to measure the similarity between users.</span></p>
+<p><strong>Frameworks used</strong></p>
+<p><strong>Hadoop</strong><span style="font-weight: 400;"> - </span><span style="font-weight: 400;">Apache Hadoop is a collection of open-source software utilities that facilitate using a network of many computers to solve problems involving massive amounts of data and computation. It provides a software framework for distributed storage and processing of big data using the MapReduce programming model</span></p>
+<p><strong>Spark</strong><span style="font-weight: 400;"> - </span><span style="font-weight: 400;">Apache Spark is an open-source distributed general-purpose cluster-computing framework. Spark provides an interface for programming entire clusters with implicit data parallelism and fault tolerance.</span></p>
+<p><strong>External Packages Used</strong></p>
+<p><span style="font-weight: 400;">Jsoup is a java html parser. It is a java library that is used to parse HTML document. Jsoup provides api to extract and manipulate data from URL or HTML file. It uses DOM, CSS and Jquery-like methods for extracting and manipulating file.</span><span style="font-weight: 400;">&nbsp;</span></p>
+<p><br /><br /><br /></p>
+<p><strong>Project Context</strong></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">The purpose of choosing this project is to get an insight about recommendation engine in general. Through this course of implementation we intend to get hands on experience with web crawling, link analysis and also working as a team. We find this system really interesting since it helps users make their decision and also enforce more research on products they plan to buy and also feel satisfied after a decision is made. It also helps record the quality of interactions between users and items. </span><span style="font-weight: 400;">Recommender systems differ in the way they analyze the data sources to develop notions of affinity between users and items, which can be used to identify well-matched pairs.&nbsp;</span></p>
+<p>&nbsp;</p>
+<p><strong>Illustrative Results</strong></p>
+<p>&nbsp;</p>
+<p><strong>Performance Evaluation</strong></p>
+<p><br /><br /></p>
+<p><strong>Work Division</strong></p>
+<p>&nbsp;</p>
+<table>
+<tbody>
+<tr>
+<td>
+<p><strong>Sr.No</strong></p>
+</td>
+<td>
+<p><strong>Task</strong></p>
+</td>
+<td>
+<p><strong>Team Member</strong></p>
+</td>
+</tr>
+<tr>
+<td>
+<p><span style="font-weight: 400;">1.</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Data gathering and cleaning</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Noor/Riddhi/Sharmistha</span></p>
+</td>
+</tr>
+<tr>
+<td>
+<p><span style="font-weight: 400;">2.</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Calculation of rating implementation in mapreduce discussion steps</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Noor/Riddhi/Sharmistha</span></p>
+</td>
+</tr>
+<tr>
+<td>
+<p><span style="font-weight: 400;">3.</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Implement mapreduce chain to get the movie details and connect different components of the project</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Riddhi</span></p>
+</td>
+</tr>
+<tr>
+<td>
+<p><span style="font-weight: 400;">4.</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Web scraping to read reviews for given output from the review page</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Noor</span></p>
+</td>
+</tr>
+<tr>
+<td>
+<p><span style="font-weight: 400;">5.</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Sentiment analysis on the reviews</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Noor</span></p>
+</td>
+</tr>
+<tr>
+<td>
+<p><span style="font-weight: 400;">6.&nbsp;</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Calculating the rating for the movie searched</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Riddhi</span></p>
+</td>
+</tr>
+<tr>
+<td>
+<p><span style="font-weight: 400;">7.</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Collaborative filtering algorithm implementation discussion steps</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Noor/Riddhi/Sharmistha</span></p>
+</td>
+</tr>
+<tr>
+<td>
+<p><span style="font-weight: 400;">8.</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Collaborative filtering algorithm implementation in spark</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Sharmistha</span></p>
+</td>
+</tr>
+<tr>
+<td>
+<p><span style="font-weight: 400;">9.</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Filter the result of top 10 highly rated movies of users having similar taste</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Sharmistha</span></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p><br /><br /></p>
+<p><strong>Challenges/ Issues Faced</strong></p>
+<p>&nbsp;</p>
+<ol>
+<li style="font-weight: 400;"><span style="font-weight: 400;">We tried spending some time to implement a model using Matrix Factorization but were not successful and hence proceeded with other ideas like Sentiment Analysis</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">In the initial plan we planned to use K-Means clustering technique to identify the closest set of users by using canopy approach. However, even this approach suffered from problems clusters of non-uniform sizes as we have no control over the initial centers. Therefore, we decided to use SVD technique and cosine similarity approach to identify the similar set of users</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">The driver program also had to handle some invalid IMDB ids for some movies in the MovieLens data set</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Understanding the SVD and filling the sparse user-item matrix took time</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">To make parsing easier for later stages of sentiment analysis, we had to place each movie review retrieved from web scraping on a newline&nbsp;&nbsp;</span></li>
+</ol>
+<p>&nbsp;</p>
+<p><strong>Things implemented and Future Improvements</strong></p>
+<p><strong>Things Implemented/ Accomplished&nbsp;</strong></p>
+<p><span style="font-weight: 400;">Constructing Utility Matrix</span></p>
+<p><span style="font-weight: 400;">Sourcing Data from other external sources</span></p>
+<p><span style="font-weight: 400;">Sentiment Analysis and conversion of descriptive data into numerical rating</span></p>
+<p><span style="font-weight: 400;">Web scraping to fetch the reviews from IMDB sites.</span></p>
+<p><span style="font-weight: 400;">Recommend movies based on collaborative recommendation technique</span></p>
+<p><strong>Future Improvements:</strong></p>
+<ol>
+<li style="font-weight: 400;"><span style="font-weight: 400;">As the user-movie rating matrix is sparse we will use sentiment analysis to fill up the missing ratings in order to reduce the rmse of user-similarity matrix.&nbsp;</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Give better meaningful suggestions to the users based on the genre of the movie, time period of the movie searched, cast, director etc.</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Movie ratings can be calculated using Sentiment Analysis instead of depending on the values from the predefined dataset.</span></li>
+</ol>
+<p><strong>Conclusion</strong></p>
+<p><span style="font-weight: 400;">With enough data, collaborative filtering provides a powerful way for data scientists to recommend new products or items to users. If you have well-detailed metadata about your products, you could also use a content-based approach to recommendations.</span></p>
