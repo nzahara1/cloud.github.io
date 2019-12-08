@@ -59,12 +59,13 @@
 <p><span style="font-weight: 400;">Currently the system doesn&rsquo;t use tags.csv file.&nbsp;</span></p>
 <p><strong>Algorithms and&nbsp; Techniques Used</strong></p>
 <p><strong>Collaborative Filtering based Recommendation</strong><span style="font-weight: 400;"> - </span><span style="font-weight: 400;">&nbsp;For each user, recommender systems recommend items based on how similar users liked the item. Let&rsquo;s say Alice and Bob have similar interests in video games. Alice recently played and enjoyed the game </span><a href="http://www.zelda.com/breath-of-the-wild/"><span style="font-weight: 400;">Legend of Zelda: Breath of the Wild</span></a><span style="font-weight: 400;">. Bob has not played this game, but because the system has learned that Alice and Bob have similar tastes, it recommends this game to Bob. In addition to user similarity, recommender systems can also perform collaborative filtering using item similarity (&ldquo;Users who liked this item also liked X&rdquo;). The idea behind collaborative filtering is to recommend new items based on the similarity of users. Cosine similarity is used to measure the similarity between users.</span></p>
+<p><strong>Algorithm (Neighborhood similarity)</strong><span style="font-weight: 400;"> - We have calculated the user similarity based on the neighbourhood technique and used the matrix factorization technique(SVD) to predict the missing values for user-movie ratings. Using cosine similarity we create a user to user similarity matrix. To recommending movies for a given user we look at user to user similarity matrix and extract top 5 similar users. Using the user&rsquo;s id we get all the movies rated by those top users and multiply the rating with the similarity value. We then sort the movies based on new ratings and recommend top 10 movies.</span></p>
 <p><strong>Frameworks used</strong></p>
 <p><strong>Hadoop</strong><span style="font-weight: 400;"> - </span><span style="font-weight: 400;">Apache Hadoop is a collection of open-source software utilities that facilitate using a network of many computers to solve problems involving massive amounts of data and computation. It provides a software framework for distributed storage and processing of big data using the MapReduce programming model</span></p>
 <p><strong>Spark</strong><span style="font-weight: 400;"> - </span><span style="font-weight: 400;">Apache Spark is an open-source distributed general-purpose cluster-computing framework. Spark provides an interface for programming entire clusters with implicit data parallelism and fault tolerance.</span></p>
+<p><br /><br /></p>
 <p><strong>External Libraries Used</strong></p>
 <p><strong>Jsoup-1.12.1.jar</strong><strong> - </strong><span style="font-weight: 400;">Jsoup is a java html parser. It is a java library that is used to parse HTML document. Jsoup provides api to extract and manipulate data from URL or HTML file. It uses DOM, CSS and Jquery-like methods for extracting and manipulating file.</span><span style="font-weight: 400;"> We used this jar for web scraping to get the reviews from IMDB website.</span></p>
-<p><br /><br /></p>
 <p><strong>Scipy.sparse.linalg.svds</strong><strong> - </strong><span style="font-weight: 400;">This library consists of an iterative procedure to find the SVD decomposition by reducing the problem to an eigendecomposition on the array. This method is very effective when the input matrix is sparse or only the largest singular values are required.</span></p>
 <p>&nbsp;</p>
 <p><strong>Project Context</strong></p>
@@ -77,11 +78,155 @@
 <p>&nbsp;</p>
 <p><span style="font-weight: 400;">We were able to achieve fairly good execution time from scraping the reviews and performing&nbsp; sentiment analysis in mapreduce of around 5-6mins.</span><strong>&nbsp;</strong></p>
 <p><span style="font-weight: 400;">We are using AFINN-111.txt dictionary which has the list of words along with the score from -1 to 5 indicating the negativity or positivity of the word. Since, this dictionary has limited words (around 2477 words), accurately rating the review is not possible. We were not able to capture the accurate score for the reviews. Also, as we are assigning the scores based on the words used in the reviews without applying algorithm like natural language processing, genetic algorithms etc. the resultant scores slightly differs.&nbsp;</span></p>
-<p><br /><br /></p>
+<p><span style="font-weight: 400;">Steps in evaluation:</span></p>
+<ol>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Implemented map function to get the movie_id from movies.csv file for the searched movie.</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Output of this map function was used as input to another map function to get the IMDB id from the movie_id in links.csv file.</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Output of this function acted as input for another map function which performed web scraping using external library called jsoup.jar. The reviews were scraped from the IMDB website for that particular IMDB id and created reviews.txt file.</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">This file was consumed by another map function to perform sentiment analysis on the reviews. Each review was rated on the scale of -5 to 5 using AFINN-111.txt file which has the list of words along with the score for each word.</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Finally this ratings were passed to reduce function which counted the number of positive reviews and calculated overall percentage of movie loved by IMDB users.</span></li>
+</ol>
+<img src="sentiment.jpg" alt="No Image"/>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">&nbsp;</span></p>
+<p><br /><br /><br /></p>
 <p><strong>User Similarity Matrix:</strong></p>
 <p><span style="font-weight: 400;">While creating the user similarity matrix for all the users, the system&rsquo;s performance was degrading and was taking a long time to execute. Most of the jobs where out of resources and result in failing of tasks due to long wait period for resources. So we have restricted the user similarity matrix for first 100 users.&nbsp; We have noticed that the system&rsquo;s performance was good for 100 users and we were getting results in less than 10 mins.</span></p>
 <p><span style="font-weight: 400;">As the user and movie rating matrix is sparse, we have implemented factorization method to handle missing ratings. For this project we have used the K value as &ldquo;50&rdquo; in Singular value decomposition (SVD) factorization which has improved the performance.</span></p>
-<p><br /><br /><br /></p>
+<p>&nbsp;</p>
+<p><strong>Result Evaluation:</strong></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">The movies rated by the User id #3 are</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight: 400;">The Recommended Movies for user #3 are:</span></p>
+<table>
+<tbody>
+<tr>
+<td>
+<p><span style="font-weight: 400;">Movie Id</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Title</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Genres</span></p>
+</td>
+</tr>
+<tr>
+<td>
+<p><span style="font-weight: 400;">142</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Shadows (Cienie) (1988)</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Drama</span></p>
+</td>
+</tr>
+<tr>
+<td>
+<p><span style="font-weight: 400;">345</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Adventures of Priscilla, Queen of the Desert, The (1994)</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Comedy|Drama</span></p>
+</td>
+</tr>
+<tr>
+<td>
+<p><span style="font-weight: 400;">441</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Dazed and Confused (1993)</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Comedy</span></p>
+</td>
+</tr>
+<tr>
+<td>
+<p><span style="font-weight: 400;">762</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Striptease (1996)</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Comedy|Crime</span></p>
+</td>
+</tr>
+<tr>
+<td>
+<p><span style="font-weight: 400;">1204</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Lawrence of Arabia (1962)</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Adventure|Drama|War</span></p>
+</td>
+</tr>
+<tr>
+<td>
+<p><span style="font-weight: 400;">1372</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Star Trek VI: The Undiscovered Country (1991)</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Action|Mystery|Sci-Fi</span></p>
+</td>
+</tr>
+<tr>
+<td>
+<p><span style="font-weight: 400;">2100</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Splash (1984)</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Comedy|Fantasy|Romance</span></p>
+</td>
+</tr>
+<tr>
+<td>
+<p><span style="font-weight: 400;">2641</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Superman II (1980)</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Action|Sci-Fi</span></p>
+</td>
+</tr>
+<tr>
+<td>
+<p><span style="font-weight: 400;">3386</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">JFK (1991)</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Drama|Mystery|Thriller</span></p>
+</td>
+</tr>
+<tr>
+<td>
+<p><span style="font-weight: 400;">3937</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Runaway (1984)</span></p>
+</td>
+<td>
+<p><span style="font-weight: 400;">Sci-Fi|Thriller</span></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p><br /><br /></p>
+<p><span style="font-weight: 400;">As we can see that User #3 mostly likes &ldquo;Drama, Action and Thriller&rdquo; movies and the recommended movies&nbsp; are closely related to the genres of user #3.</span></p>
+<p><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></p>
 <p><strong>Work Division</strong></p>
 <p>&nbsp;</p>
 <table>
